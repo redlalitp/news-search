@@ -27,8 +27,7 @@ public class SearchService {
         Set<NewsHeadlines> headlines = new HashSet<>();
         // get all exact matching headlines first
         allHeadlines.forEach(line -> {
-            if(line.getHeadlineText().contains(query))
-            {
+            if(line.getHeadlineText().contains(query)) {
                 headlines.add(line);
             }
         });
@@ -37,8 +36,7 @@ public class SearchService {
         String[] queryWords = query.split(" ");
 
         allHeadlines.forEach(line -> {
-            if(Arrays.stream(queryWords).anyMatch(word -> line.getHeadlineText().contains(word)))
-            {
+            if(Arrays.stream(queryWords).anyMatch(word -> line.getHeadlineText().contains(word))) {
                 headlines.add(line);
             }
         });
@@ -53,8 +51,7 @@ public class SearchService {
 
         // get all exact matching headlines first
         for(NewsHeadlines line : allHeadlines) {
-            if(line.getHeadlineText().contains(query))
-            {
+            if(line.getHeadlineText().startsWith(query)) {
                 headlines.add(line);
                 if (headlines.size() >= 10) {
                     break;

@@ -12,7 +12,7 @@ class HomePage extends Component {
                     <div className="search-headline-text">SEARCH HEADLINES</div>
                     <div className="search-control-wrapper">
                         <div className="auto-suggestion-wrapper">
-                            <AutoSuggestion suggestions={["Oranges", "Apples", "Banana", "Kiwi", "Mango"]}/>
+                            <AutoSuggestion/>
                         </div>
                         <input className="search-button" type="image" alt="search icon" src="search-icon.png"/>
                     </div>

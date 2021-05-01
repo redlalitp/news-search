@@ -1,24 +1,40 @@
 import {Component, Fragment} from 'react';
 import '../style/auto-suggestion.scss';
+import debounce from 'lodash.debounce';
+import {Redirect} from "react-router-dom";
 const axios = require('axios');
 
 class AutoSuggestion extends Component {
-
-    
         constructor(props){
             super(props);
             this.state = {
               activeSuggestion: 0,
               filteredSuggestions: [],
               showSuggestions: false,
-              userInput: ""
+              userInput: "",
+              data: {
+                searchResults: []
+              }
             };
+
+            this.onChangeDebounced = debounce(this.onChangeDebounced, 300);
         }
 
         onChange = async e => {
-            //const { suggestions } = this.props;
             const userInput = e.currentTarget.value;
 
+            this.setState({
+                activeSuggestion: 0,
+                filteredSuggestions: [],
+                showSuggestions: false,
+                userInput
+            });
+
+            this.onChangeDebounced(userInput);
+
+        };
+
+        onChangeDebounced = async userInput => {
             const api = `http://localhost:8080/suggestion`;
 
             const suggestions = await axios.get(api, { params: { query: userInput } });
@@ -34,7 +50,7 @@ class AutoSuggestion extends Component {
                 showSuggestions: true,
                 userInput
             });
-        };
+          }
 
 
         onClick = e => {
@@ -54,8 +70,18 @@ class AutoSuggestion extends Component {
                 this.setState({
                     activeSuggestion: 0,
                     showSuggestions: false,
-                    userInput: filteredSuggestions[activeSuggestion]
+                    //userInput: filteredSuggestions[activeSuggestion].headlineText
                 });
+
+                let url = `http://localhost:8080/search?query=${this.state.userInput}`;
+                axios.get(url)
+                    .then(response => {
+                        let data = {
+                            searchResults: response.data,
+                        };
+                        this.setState({data});
+                    })
+                    .catch(error => console.log(error));
             } else if (e.keyCode === 38) {
                 if (activeSuggestion === 0) {
                     return;
@@ -78,60 +104,70 @@ class AutoSuggestion extends Component {
         };
 
         render() {
-        const {
-            onChange,
-            onClick,
-            onKeyDown,
-            state: {
-                activeSuggestion,
-                filteredSuggestions,
-                showSuggestions,
-                userInput
-            }
-        } = this;
-        
-        let suggestionsListComponent;
-
-
-        if (showSuggestions && userInput) {
-            if (filteredSuggestions.length) {
-                suggestionsListComponent = (
-                <ul className="suggestions">
-                    {filteredSuggestions.map((suggestion, index) => {
-                    let className;
+            const {
+                onChange,
+                onClick,
+                onKeyDown,
+                state: {
+                    activeSuggestion,
+                    filteredSuggestions,
+                    showSuggestions,
+                    userInput
+                }
+            } = this;
             
-                    // Flag the active suggestion with a class
-                    if (index === activeSuggestion) {
-                        className = "suggestion-active";
-                    }
-                    return (
-                        <li className={className} key={suggestion} onClick={onClick}>
-                            {suggestion.headlineText}
-                        </li>
+            let suggestionsListComponent;
+
+
+            if (showSuggestions && userInput) {
+                if (filteredSuggestions.length) {
+                    suggestionsListComponent = (
+                        <ul className="suggestions">
+                            {filteredSuggestions.map((suggestion, index) => {
+                            let className;
+                    
+                            // Flag the active suggestion with a class
+                            if (index === activeSuggestion) {
+                                className = "suggestion-active";
+                            }
+                            return (
+                                <li className={className} key={suggestion.headlineText} onClick={onClick}>
+                                    {suggestion.headlineText}
+                                </li>
+                            );
+                            })}
+                        </ul>
                     );
-                    })}
-                </ul>
-                );
-            } else {
-                suggestionsListComponent = (
-                <div className="no-suggestions">
-                    <em>No suggestions available.</em>
-                </div>
-                );
-            }
+                } else {
+                    suggestionsListComponent = (
+                    <div className="no-suggestions">
+                        <em>No suggestions available.</em>
+                    </div>
+                    );
+                }
             }
 
             return (
-            <Fragment>
-                <input
-                className="search-input"
-                type="text"
-                onChange={onChange}
-                onKeyDown={onKeyDown}
-                value={userInput}
-                />
-                {suggestionsListComponent}
-            </Fragment>
+                
+                <Fragment>
+                        {this.state.data.searchResults.length > 0 &&
+                            <Redirect to={{
+                                pathname: "/search",
+                                search: `?query=${this.state.userInput}`,
+                                state: this.state.data
+                            }}/>
+                        }
+                    <input
+                        className="search-input"
+                        type="text"
+                        onChange={onChange}
+                        onKeyDown={onKeyDown}
+                        placeholder='search query...'
+                        value={userInput}
+                    />
+                    {suggestionsListComponent}
+                    
+                </Fragment>
             );
         }
     
