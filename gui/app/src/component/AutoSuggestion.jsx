@@ -1,7 +1,8 @@
 import {Component, Fragment} from 'react';
 import '../style/auto-suggestion.scss';
 import debounce from 'lodash.debounce';
-import {Redirect} from "react-router-dom";
+import SearchResults from './SearchResults';
+
 const axios = require('axios');
 
 class AutoSuggestion extends Component {
@@ -70,7 +71,6 @@ class AutoSuggestion extends Component {
                 this.setState({
                     activeSuggestion: 0,
                     showSuggestions: false,
-                    //userInput: filteredSuggestions[activeSuggestion].headlineText
                 });
 
                 let url = `http://localhost:8080/search?query=${this.state.userInput}`;
@@ -150,13 +150,6 @@ class AutoSuggestion extends Component {
             return (
                 
                 <Fragment>
-                        {this.state.data.searchResults.length > 0 &&
-                            <Redirect to={{
-                                pathname: "/search",
-                                search: `?query=${this.state.userInput}`,
-                                state: this.state.data
-                            }}/>
-                        }
                     <input
                         className="search-input"
                         type="text"
@@ -166,7 +159,9 @@ class AutoSuggestion extends Component {
                         value={userInput}
                     />
                     {suggestionsListComponent}
-                    
+                    {this.state.data.searchResults.length > 0 &&
+                        <SearchResults state={this.state.data}/>
+                    }
                 </Fragment>
             );
         }

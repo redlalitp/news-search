@@ -11,14 +11,12 @@ class App extends Component {
     return (
       <div>
         <div className="container">
-        <Router>
-          <Switch>
-              <Route path='/search' render={(props) => <SearchResults {...props}/>}/>
-              <Route path='/' component={HomePage}/>
-          </Switch>
-        </Router>
-          {/* <HomePage /> */}
-          
+          <Router>
+              <Switch>
+                <Route path='/' component={HomePage}/>
+                <Route path='/search' render={(props) => <SearchResults {...props}/>}/>
+              </Switch>
+          </Router>  
         </div>
       </div>
     );

@@ -16,7 +16,7 @@ $search-area-width: 500px;
     right: 0;
     width: $search-area-width;
     height: 100px;
-    margin: calc(100vh * 0.3) auto auto auto;
+    margin: calc(100vh * 0.1) auto auto auto;
     justify-content: center;
     vertical-align: middle;
     flex-direction: column;
@@ -74,8 +74,11 @@ $search-area-width: 500px;
 }
 
 .search-results {
-    height: auto;
-    width: 70hw;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    height: calc(100vh * 0.6);
+    width: auto;
     scroll-behavior: smooth;
     overflow: scroll;
     display: flex;
@@ -84,4 +87,10 @@ $search-area-width: 500px;
 
 .search-result {
     margin-top: 20px;
+    color: rgb(73, 72, 71);
+}
+
+.search-results__total-results-count {
+    margin: 20px 0;
+    color: rgb(73, 72, 71);
 }
