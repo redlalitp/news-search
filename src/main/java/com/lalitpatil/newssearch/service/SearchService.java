@@ -34,42 +34,48 @@ public class SearchService {
     }
 
     public SearchResultResponse getAllRelevantHeadlines(String query, int pageNumber, int recordsPerPage) {
+        Set<NewsHeadlines> headlines = new LinkedHashSet<>();
+        Set<NewsHeadlines> returnHeadlines = new LinkedHashSet<>();
+        Set<NewsHeadlines> pageRecords = new LinkedHashSet<>();
         if(pageNumber == 0) {
             headlineStore.allHeadlines = Sets.newHashSet(newsHeadlinesRepository.findAll());
+
+            Set<NewsHeadlines> allHeadlines = headlineStore.allHeadlines;
+
+
+            // get all exact matching headlines first
+            if (allHeadlines != null && !allHeadlines.isEmpty()) {
+                allHeadlines.parallelStream().forEach(line -> {
+                    if (line.getHeadlineText().contains(query)) {
+                        headlines.add(line);
+                    }
+                });
+
+                //if query has multiple words collect results matching each word and combination of words
+                String[] queryWords = query.split(" ");
+
+                allHeadlines.parallelStream().forEach(line -> {
+                    if (Arrays.stream(queryWords).allMatch(word -> line.getHeadlineText().contains(word))) {
+                        headlines.add(line);
+                    }
+                });
+
+                allHeadlines.parallelStream().forEach(line -> {
+                    if (Arrays.stream(queryWords).anyMatch(word -> line.getHeadlineText().contains(word))) {
+                        headlines.add(line);
+                    }
+                });
+                HeadlineStore.relevantHeadlines = headlines;
+            }
         }
-        Set<NewsHeadlines> allHeadlines = headlineStore.allHeadlines;
-        Set<NewsHeadlines> headlines = new LinkedHashSet<>();
-        Set<NewsHeadlines> pageRecords = new LinkedHashSet<>();
 
-        // get all exact matching headlines first
-        if(allHeadlines != null && !allHeadlines.isEmpty()) {
-            allHeadlines.parallelStream().forEach(line -> {
-                if (line.getHeadlineText().contains(query)) {
-                    headlines.add(line);
-                }
-            });
-
-            //if query has multiple words collect results matching each word and combination of words
-            String[] queryWords = query.split(" ");
-
-            allHeadlines.parallelStream().forEach(line -> {
-                if (Arrays.stream(queryWords).allMatch(word -> line.getHeadlineText().contains(word))) {
-                    headlines.add(line);
-                }
-            });
-
-            allHeadlines.parallelStream().forEach(line -> {
-                if (Arrays.stream(queryWords).anyMatch(word -> line.getHeadlineText().contains(word))) {
-                    headlines.add(line);
-                }
-            });
-
-            int totalRecords = headlines.size();
+            returnHeadlines = HeadlineStore.relevantHeadlines;
+            int totalRecords = returnHeadlines.size();
             int totalPages = totalRecords / recordsPerPage;
 
             int i = 0, j = 0;
 
-            for (NewsHeadlines headline : headlines) {
+            for (NewsHeadlines headline : returnHeadlines) {
                 if (i < pageNumber * recordsPerPage) {
                     i++;
                     continue;
@@ -84,7 +90,6 @@ public class SearchService {
             searchResultResponse.setTotalPages(totalPages);
             searchResultResponse.setRecordsPerPage(recordsPerPage);
             searchResultResponse.setTotalRecords(totalRecords);
-        }
         return searchResultResponse;
     }
 

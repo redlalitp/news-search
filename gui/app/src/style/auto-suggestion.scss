@@ -12,7 +12,7 @@
     max-height: 360px;
     overflow-y: auto;
     padding-left: 0;
-    width: 446px;
+    width: 444px;
     top: 89px;
     z-index: 10;
     box-shadow: 0 0 15px 0px #888888;
@@ -30,3 +30,6 @@
     cursor: pointer;
   }
   
+  .highlight-bold {
+    font-weight: bold;
+  }

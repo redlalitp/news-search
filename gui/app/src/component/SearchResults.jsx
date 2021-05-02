@@ -2,7 +2,6 @@ import {Component} from 'react';
 import '../style/homepage.scss';
 import {Link} from "react-router-dom";
 import Moment from 'react-moment';
-import Pagination from './Pagination';
 
 class SearchResults extends Component {
 
@@ -15,7 +14,7 @@ class SearchResults extends Component {
                 <div className="search-results">
                     {this.props.state.searchResults.newsHeadlines.map(result => (
                         <div className="search-result">
-                            <Link to="#">
+                            <Link to="#" key={result.headlineText}>
                                 <div>{result.headlineText}</div>
                             </Link>
                             <div>Published: <Moment fromNow>{result.publishDate}</Moment> (<Moment format="YYYY/MM/DD">

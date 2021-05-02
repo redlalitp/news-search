@@ -122,6 +122,10 @@ class AutoSuggestion extends Component {
                     .catch(error => console.log(error));
         }
 
+        getHighlightedResult= (result) => {
+            return result.replace(this.state.userInput, `<span class="highlight-bold">${this.state.userInput}</span>`);
+        }
+
         render() {
             const {
                 onChange,
@@ -145,13 +149,12 @@ class AutoSuggestion extends Component {
                             {filteredSuggestions.map((suggestion, index) => {
                             let className;
                     
-                            // Flag the active suggestion with a class
                             if (index === activeSuggestion) {
                                 className = "suggestion-active";
                             }
                             return (
                                 <li className={className} key={suggestion.headlineText} onClick={onClick}>
-                                    {suggestion.headlineText}
+                                    <div dangerouslySetInnerHTML={{__html:this.getHighlightedResult(suggestion.headlineText)}}></div>
                                 </li>
                             );
                             })}

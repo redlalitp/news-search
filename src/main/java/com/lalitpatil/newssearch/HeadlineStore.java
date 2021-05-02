@@ -10,4 +10,5 @@ import java.util.Set;
 @Component
 public class HeadlineStore {
     public static Set<NewsHeadlines> allHeadlines;
+    public static Set<NewsHeadlines> relevantHeadlines;
 }
