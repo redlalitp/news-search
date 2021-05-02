@@ -4,11 +4,8 @@ The database consists of 50,000 records of news headlines from india newspapers.
 You can find the source csv in repo.
 In application, when type in query, you get suggestions for headlines and if you press enter, matching search results are shown.
 
-Demo:
-![alt text](./news-search-home.png){:height="30%" width="30%"}
-![alt text](./news-search-suggestion.png){:height="30%" width="30%"}
-![alt text](./news-search-results-page1.png){:height="30%" width="30%"}
-![alt text](./news-search-results-page2.png){:height="30%" width="30%"}
+[Screenshots](#screenshots)
+
 
 This application uses:
 1. Java Spring Boot for backend
@@ -75,3 +72,11 @@ C. Start frontend application
     `npm start`
     
 Application should be running at http://localhost:3000
+
+
+## Screenshots
+
+![alt text](./news-search-home.png)
+![alt text](./news-search-suggestion.png)
+![alt text](./news-search-results-page1.png)
+![alt text](./news-search-results-page2.png)
