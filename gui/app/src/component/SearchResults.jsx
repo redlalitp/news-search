@@ -21,7 +21,7 @@ class SearchResults extends Component {
                 <div className="search-results">
                     {this.props.state.searchResults.newsHeadlines.map(result => (
                         <div className="search-result">
-                            <Link to="#" key={result.headlineText}>
+                            <Link to="#">
                                 <div dangerouslySetInnerHTML={{__html:this.getHighlightedResult(result.headlineText)}}></div>
                             </Link>
                             <div>Published: <Moment fromNow>{result.publishDate}</Moment> (<Moment format="YYYY/MM/DD">

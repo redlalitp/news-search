@@ -37,6 +37,7 @@ $search-area-width: 500px;
     color: #565656b8;
     font-family: monospace;
     margin-bottom: 10px;
+    z-index: 10;
 }
 
 .search-input {
@@ -136,4 +137,13 @@ $search-area-width: 500px;
     width: inherit;
     display: flex;
     justify-content: center;
+}
+
+.search-image{
+    position: absolute;
+    height: 36px;
+    width: 36px;
+    opacity: 0.8;
+    left: 312px;
+    z-index: 1;
 }

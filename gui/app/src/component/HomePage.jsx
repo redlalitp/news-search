@@ -9,7 +9,12 @@ class HomePage extends Component {
         return (
             <div className="search-main-container">
                 <div id="search-area-div" className="search-area">
-                    <div className="search-headline-text">SEARCH HEADLINES</div>
+                    <div>
+                        <img className="search-image" alt="search-icon" src="search-icon.png"></img>
+                        <div className="search-headline-text">
+                            SEARCH HEADLINES
+                        </div>
+                    </div>
                     <div className="search-control-wrapper">
                         <div className="auto-suggestion-wrapper">
                             <AutoSuggestion/>

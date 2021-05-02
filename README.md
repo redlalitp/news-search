@@ -1,7 +1,7 @@
 # news-search
 
 The database consists of 50,000 records of news headlines from india newspapers.
-You can find the source json in repo.
+You can find the source csv in repo.
 In application, when type in query, you get suggestions for headlines and if you press enter, matching search results are shown.
 
 
@@ -25,7 +25,7 @@ A. Start the HSQL server
 1. Download HSQLDB if not have already
         https://sourceforge.net/projects/hsqldb/files/latest/download
         and extract to a folder
-2. copy files from hsql/ to your extracted hsqldb directoy hsqldb/data/ directory
+2. copy files from hsql/ to your extracted hsqldb directory hsqldb/data/ directory
 3. In your hsqldb directory create `server.properties` file and add following lines
    
     `server.database.0 = file:data/mydb`
