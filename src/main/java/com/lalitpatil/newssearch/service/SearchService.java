@@ -19,12 +19,7 @@ public class SearchService {
     NewsHeadlinesRepository newsHeadlinesRepository;
 
     @Autowired
-    HeadlineStore headlineStore;
-
-    @Autowired
     SearchResultResponse searchResultResponse;
-
-    //final int RECORD_PER_PAGE = 10;
 
     public Set<NewsHeadlines> getAllHeadlines()
     {
@@ -35,13 +30,10 @@ public class SearchService {
 
     public SearchResultResponse getAllRelevantHeadlines(String query, int pageNumber, int recordsPerPage) {
         Set<NewsHeadlines> headlines = new LinkedHashSet<>();
-        Set<NewsHeadlines> returnHeadlines = new LinkedHashSet<>();
+        Set<NewsHeadlines> returnHeadlines;
         Set<NewsHeadlines> pageRecords = new LinkedHashSet<>();
         if(pageNumber == 0) {
-            headlineStore.allHeadlines = Sets.newHashSet(newsHeadlinesRepository.findAll());
-
-            Set<NewsHeadlines> allHeadlines = headlineStore.allHeadlines;
-
+            Set<NewsHeadlines> allHeadlines = Sets.newHashSet(newsHeadlinesRepository.findAll());
 
             // get all exact matching headlines first
             if (allHeadlines != null && !allHeadlines.isEmpty()) {
@@ -54,12 +46,14 @@ public class SearchService {
                 //if query has multiple words collect results matching each word and combination of words
                 String[] queryWords = query.split(" ");
 
+                // collect headlines which contain all terms first
                 allHeadlines.parallelStream().forEach(line -> {
                     if (Arrays.stream(queryWords).allMatch(word -> line.getHeadlineText().contains(word))) {
                         headlines.add(line);
                     }
                 });
 
+                // collect headlines which contain any of the word
                 allHeadlines.parallelStream().forEach(line -> {
                     if (Arrays.stream(queryWords).anyMatch(word -> line.getHeadlineText().contains(word))) {
                         headlines.add(line);

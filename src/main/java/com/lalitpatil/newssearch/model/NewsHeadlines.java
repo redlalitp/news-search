@@ -1,10 +1,7 @@
 package com.lalitpatil.newssearch.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,13 +11,11 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "newsheadlines")
 @ToString
 public class NewsHeadlines {
     String publishDate;
     @Id
     String headlineText;
-
-    public NewsHeadlines() {
-    }
 }
