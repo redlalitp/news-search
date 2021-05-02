@@ -1,6 +1,7 @@
 package com.lalitpatil.newssearch.controller;
 
 import com.lalitpatil.newssearch.model.NewsHeadlines;
+import com.lalitpatil.newssearch.model.SearchResultResponse;
 import com.lalitpatil.newssearch.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +21,8 @@ public class NewsHeadlinesController {
     }
 
     @GetMapping("/search")
-    public Iterable<NewsHeadlines> searchHeadlines(@RequestParam String query) {
-        return this.searchService.getAllRelevantHeadlines(query);
+    public SearchResultResponse searchHeadlines(@RequestParam String query, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(required = false, defaultValue = "10") int recordsPerPage) {
+        return this.searchService.getAllRelevantHeadlines(query, pageNumber, recordsPerPage);
     }
 
     @GetMapping("/suggestion")

@@ -85,6 +85,11 @@ $search-area-width: 500px;
     flex-direction: column;
 }
 
+.search-results-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .search-result {
     margin-top: 20px;
     color: rgb(73, 72, 71);
@@ -93,4 +98,32 @@ $search-area-width: 500px;
 .search-results__total-results-count {
     margin: 20px 0;
     color: rgb(73, 72, 71);
+}
+
+.search-results__pagination {
+    position: absolute;
+    top: calc(100vh * 0.6 + 150px);
+    left: 0;
+    width: auto;
+    display: flex;
+}
+
+.search-results__pagination-page {
+    border: 0;
+    margin: 0 10px;
+}
+
+.active {
+    background-color: orange;
+}
+
+.pagination-navigation-button {
+}
+
+.pagination-navigation-button--enbaled {
+    
+}
+
+.pagination-navigation-button--disabled {
+    
 }

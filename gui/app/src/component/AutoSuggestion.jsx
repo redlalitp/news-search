@@ -2,6 +2,7 @@ import {Component, Fragment} from 'react';
 import '../style/auto-suggestion.scss';
 import debounce from 'lodash.debounce';
 import SearchResults from './SearchResults';
+import Pagination from './Pagination';
 
 const axios = require('axios');
 
@@ -14,7 +15,13 @@ class AutoSuggestion extends Component {
               showSuggestions: false,
               userInput: "",
               data: {
-                searchResults: []
+                searchResults: {
+                    newsHeadlines: [],
+                    pageNumber:0,
+                    recordsPerPage:10,
+                    totalPages:0,
+                    totalRecords:0
+                }
               }
             };
 
@@ -103,6 +110,18 @@ class AutoSuggestion extends Component {
             }
         };
 
+        pageChange = (page) => {
+            let url = `http://localhost:8080/search?query=${this.state.userInput}&pageNumber=${page}`;
+                axios.get(url)
+                    .then(response => {
+                        let data = {
+                            searchResults: response.data,
+                        };
+                        this.setState({data});
+                    })
+                    .catch(error => console.log(error));
+        }
+
         render() {
             const {
                 onChange,
@@ -159,9 +178,14 @@ class AutoSuggestion extends Component {
                         value={userInput}
                     />
                     {suggestionsListComponent}
-                    {this.state.data.searchResults.length > 0 &&
-                        <SearchResults state={this.state.data}/>
-                    }
+                    <div className="search-results-container">
+                        {this.state.data.searchResults.newsHeadlines.length > 0 &&
+                            <div>
+                                <SearchResults state={this.state.data}/> 
+                                <Pagination onPageChange={this.pageChange} state={this.state.data}/>
+                            </div>
+                        }
+                    </div>
                 </Fragment>
             );
         }

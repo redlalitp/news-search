@@ -2,17 +2,18 @@ import {Component} from 'react';
 import '../style/homepage.scss';
 import {Link} from "react-router-dom";
 import Moment from 'react-moment';
+import Pagination from './Pagination';
 
 class SearchResults extends Component {
 
     render() {
         return (
-            <div>
+            <>
                 <div className="search-results__total-results-count">
-                    Total Results: {this.props.state.searchResults.length}
+                    Total Results: {this.props.state.searchResults.totalRecords}
                 </div>
                 <div className="search-results">
-                    {this.props.state.searchResults.map(result => (
+                    {this.props.state.searchResults.newsHeadlines.map(result => (
                         <div className="search-result">
                             <Link to="#">
                                 <div>{result.headlineText}</div>
@@ -22,7 +23,7 @@ class SearchResults extends Component {
                         </div>
                     ))}
                 </div>
-            </div>
+            </>
         )
     }
 }
