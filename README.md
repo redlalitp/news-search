@@ -4,6 +4,8 @@ The database consists of 50,000 records of news headlines from india newspapers.
 You can find the source csv in repo.
 In application, when type in query, you get suggestions for headlines and if you press enter, matching search results are shown.
 
+Demo:
+![alt text](./news-search-home.png)
 
 This application uses:
 1. Java Spring Boot for backend
