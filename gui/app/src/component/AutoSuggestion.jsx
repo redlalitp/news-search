@@ -25,7 +25,7 @@ class AutoSuggestion extends Component {
               }
             };
 
-            this.onChangeDebounced = debounce(this.onChangeDebounced, 300);
+            this.onChangeDebounced = debounce(this.onChangeDebounced, 500);
         }
 
         onChange = async e => {
@@ -184,7 +184,7 @@ class AutoSuggestion extends Component {
                     <div className="search-results-container">
                         {this.state.data.searchResults.newsHeadlines.length > 0 &&
                             <div>
-                                <SearchResults state={this.state.data}/> 
+                                <SearchResults state={this.state.data} query={this.state.userInput}/> 
                                 <Pagination onPageChange={this.pageChange} state={this.state.data}/>
                             </div>
                         }

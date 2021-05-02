@@ -14,7 +14,6 @@ class HomePage extends Component {
                         <div className="auto-suggestion-wrapper">
                             <AutoSuggestion/>
                         </div>
-                        <input className="search-button" type="image" alt="search icon" src="search-icon.png"/>
                     </div>
                 </div>
             </div>

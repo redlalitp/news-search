@@ -5,6 +5,13 @@ import Moment from 'react-moment';
 
 class SearchResults extends Component {
 
+    getHighlightedResult= (result) => {
+        this.props.query.split(" ").forEach(word => {
+            result = result.replace(word, `<span class="highlight-bold">${word}</span>`);
+        })
+        return result;
+    }
+
     render() {
         return (
             <>
@@ -15,7 +22,7 @@ class SearchResults extends Component {
                     {this.props.state.searchResults.newsHeadlines.map(result => (
                         <div className="search-result">
                             <Link to="#" key={result.headlineText}>
-                                <div>{result.headlineText}</div>
+                                <div dangerouslySetInnerHTML={{__html:this.getHighlightedResult(result.headlineText)}}></div>
                             </Link>
                             <div>Published: <Moment fromNow>{result.publishDate}</Moment> (<Moment format="YYYY/MM/DD">
                     {result.publishDate}</Moment>)</div>
